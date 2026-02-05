@@ -3,9 +3,6 @@ import { GlobalStyles } from "../constant/styles";
 
 export default function VydavokInput({ invalid, popis, konfiguracia, style }) {
   const inputStyles = [styles.input];
-
-  //console.log("Konfigurácia - multiline:", konfiguracia.multiline);
-  // meníme štýl, ak je povolené viacriadkové zadávanie textu
   if (konfiguracia && konfiguracia.multiline) {
     inputStyles.push(styles.inputMultiline);
   }
@@ -19,8 +16,6 @@ export default function VydavokInput({ invalid, popis, konfiguracia, style }) {
       <Text style={[styles.label, invalid && styles.invalidPopis]}>
         {popis}
       </Text>
-      {/* spread operator - 
-      rozloží všetky vlastnosti objektu do komponentu TextInput */}
       <TextInput style={inputStyles} {...konfiguracia} />
     </View>
   );

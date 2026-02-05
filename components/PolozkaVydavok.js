@@ -1,13 +1,15 @@
 import { Pressable, View, Text, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { GlobalStyles } from "../constant/styles";
 import { getFormatovanyDatum } from "../util/date";
 import { useNavigation } from "@react-navigation/native";
+import { ROUTES } from "../constant/routes";
 
-export default function PolozkaVydavok({ id, popis, suma, datum }) {
+export default function PolozkaVydavok({ id, popis, suma, datum, fotkaUri, poloha }) {
   const navigation = useNavigation();
 
   function vydavokPolozkaPressHandler() {
-    navigation.navigate("Správa Výdavku", { vydavok: id });
+    navigation.navigate(ROUTES.MANAGE_EXPENSE, { vydavok: id });
   }
 
   return (
@@ -19,14 +21,39 @@ export default function PolozkaVydavok({ id, popis, suma, datum }) {
         <View>
           <Text style={[styles.textPolozky, styles.popis]}>{popis}</Text>
           <Text style={styles.textPolozky}>{getFormatovanyDatum(datum)}</Text>
+          {(fotkaUri || poloha) && (
+            <View style={styles.metaRow}>
+              {fotkaUri && (
+                <View style={styles.metaBadge}>
+                  <Ionicons
+                    name="camera-outline"
+                    size={14}
+                    color={GlobalStyles.colors.primary100}
+                  />
+                  <Text style={styles.metaText}>Fotka</Text>
+                </View>
+              )}
+              {poloha && (
+                <View style={styles.metaBadge}>
+                  <Ionicons
+                    name="location-outline"
+                    size={14}
+                    color={GlobalStyles.colors.primary100}
+                  />
+                  <Text style={styles.metaText}>Mapa</Text>
+                </View>
+              )}
+            </View>
+          )}
         </View>
         <View style={styles.sumaContainer}>
-          <Text style={styles.suma}>€{suma.toFixed(2)}</Text>
+          <Text style={styles.suma}>EUR {suma.toFixed(2)}</Text>
         </View>
       </View>
     </Pressable>
   );
 }
+
 const styles = StyleSheet.create({
   pressed: {
     opacity: 0.75,
@@ -51,6 +78,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 4,
     fontWeight: "bold",
+  },
+  metaRow: {
+    flexDirection: "row",
+    marginTop: 8,
+  },
+  metaBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 12,
+  },
+  metaText: {
+    color: GlobalStyles.colors.primary100,
+    marginLeft: 4,
+    fontSize: 12,
   },
   sumaContainer: {
     paddingHorizontal: 12,

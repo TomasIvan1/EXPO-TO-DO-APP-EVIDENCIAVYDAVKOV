@@ -2,7 +2,6 @@ import { FlatList, StyleSheet } from "react-native";
 import PolozkaVydavok from "./PolozkaVydavok";
 
 export default function ZoznamVydavkov({ vydavky }) {
-  //console.log("Vydavky v PolozkaVYdavok:", vydavky);
   function zobrazVydavokPolozku(itemData) {
     return <PolozkaVydavok {...itemData.item} />;
   }
