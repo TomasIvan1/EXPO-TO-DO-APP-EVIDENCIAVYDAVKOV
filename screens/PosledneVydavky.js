@@ -1,13 +1,23 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import ZobrazenieVydavkov from "../components/ZobrazenieVydavkov";
 import { VydavkyContext } from "../store/vydavky-context";
 import { GlobalStyles } from "../constant/styles";
+import { fetchVydavky } from "../util/http";
 
 export default function PosledneVydavky() {
   const vydavkyCtx = useContext(VydavkyContext);
 
-  // filtrovanie výdavkov za posledných 7 dní
+  useEffect(() => {
+  const nacitajVydavky = async () => {
+    const dataVydavky = await fetchVydavky();
+    console.log("Načítané výdavky:", dataVydavky);
+    vydavkyCtx.setVydavky(dataVydavky);
+  };
+
+  nacitajVydavky();
+}, []);
+
   const dnes = new Date();
   const sedemDniSpat = new Date(
     dnes.getFullYear(),
