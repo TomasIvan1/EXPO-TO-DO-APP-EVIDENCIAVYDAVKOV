@@ -7,16 +7,19 @@ import SearchBar from "./SearchBar";
 import { useState } from "react";
 
 export default function ZobrazenieVydavkov({ vydavky, pocetDniVydavkov }) {
-  const [hladaneVydavky1, setHladaneVydavky1] = useState([]);
+  const [hladaneVydavky1, setHladaneVydavky1] = useState(null);
 
   function handleSearch(najdeneVydavky) {
     setHladaneVydavky1(najdeneVydavky);
   }
+
+  const zobrazeneVydavky = hladaneVydavky1 !== null ? hladaneVydavky1 : vydavky;
+
   return (
     <View style={styles.container}>
-      <SumaVydavkov vydavky={vydavky} pocetDni={pocetDniVydavkov} />
       <SearchBar placeholder="Najdi" onSearch={handleSearch} vydavky={vydavky}/>
-      <ZoznamVydavkov vydavky={hladaneVydavky1} />
+      <SumaVydavkov vydavky={vydavky} pocetDni={pocetDniVydavkov} />
+      <ZoznamVydavkov vydavky={zobrazeneVydavky} />
     </View>
   );
 }

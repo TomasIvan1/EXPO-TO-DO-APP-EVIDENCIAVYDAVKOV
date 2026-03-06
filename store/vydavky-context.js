@@ -23,6 +23,7 @@ const MOCK_VYDAVKY = [
 export const VydavkyContext = createContext({
   vydavky: [],
   pridatVydavok: ({ popis, suma, datum }) => {},
+  setVydavky: (vydavky) => {},
   upravitVydavok: (id, { popis, suma, datum }) => {},
   zmazatVydavok: (id) => {},
 });
@@ -30,9 +31,9 @@ export const VydavkyContext = createContext({
 function vydavkyReducer(stavVydavkov, action) {
   switch (action.type) {
     case "PRIDAT":
-      const id = new Date().toString() + Math.random().toString();
-      return [{ ...action.payload, id: id }, ...stavVydavkov];
-
+      return [action.payload, ...stavVydavkov];
+    case "SET":
+      return action.payload.reverse()
     case "UPRAVIT":
       const vydavokIndex = stavVydavkov.findIndex(
         (vydavok) => vydavok.id === action.payload.id
@@ -55,10 +56,14 @@ function vydavkyReducer(stavVydavkov, action) {
 }
 
 export default function VydavkyContextProvider({ children }) {
-  const [vydavkyStav, dispatch] = useReducer(vydavkyReducer, MOCK_VYDAVKY);
+  const [vydavkyStav, dispatch] = useReducer(vydavkyReducer, []);
 
   function pridatVydavok(vydavokData) {
     dispatch({ type: "PRIDAT", payload: vydavokData });
+  }
+
+  function setVydavky(vydavky) {
+    dispatch({type: "SET", payload: vydavky})
   }
 
   function upravitVydavok(id, vydavokData) {
@@ -72,6 +77,7 @@ export default function VydavkyContextProvider({ children }) {
 
   const value = {
     vydavky: vydavkyStav,
+    setVydavky: setVydavky,
     pridatVydavok: pridatVydavok,
     upravitVydavok: upravitVydavok,
     zmazatVydavok: zmazatVydavok,
