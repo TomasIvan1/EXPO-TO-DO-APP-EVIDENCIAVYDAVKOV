@@ -22,6 +22,22 @@
       },
       "edgeToEdgeEnabled": true
     },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access photos for expense attachments.",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to use the camera for expense photos.",
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location for expenses."
+        }
+      ]
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     }
